@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ table_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+            cursor: pointer;
+            position: relative;
+        }
+        th:hover {
+            background-color: #e4e4e4;
+        }
+        form {
+            margin: 0;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        .sort-arrow {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 0.8em;
+        }
+        th a {
+            color: black;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ table_name }}</h1>
+    <a href="{{ url_for('home') }}">Tabele</a>
+    <form method="POST" action="{{ url_for('insert_row', table_name=table_name) }}" class="insert-form">
+        <h2>Insereaza rand nou</h2>
+        {% for column in insertable_columns %}
+            <label for="{{ column }}">{{ column }}</label>
+            <input type="text" id="{{ column }}" name="{{ column }}">
+        {% endfor %}
+        <button type="submit">Insert</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>
+                    <a href="{{ url_for('table_data', table_name=table_name, sort_column=column, sort_order='DESC' if sort_column == column and sort_order == 'ASC' else 'ASC') }}">
+                        {{ column }}
+                        {% if sort_column == column %}
+                            <span class="sort-arrow">
+                                {{ '▼' if sort_order == 'DESC' else '▲' }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </th>
+                {% endfor %}
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+                <td>
+                    <form method="POST" action="{{ url_for('delete_row', table_name=table_name) }}" onsubmit="return confirm('Sigur vrei sa stergi randul?');">
+                        {% for column, value in zip(columns, row) %}
+                            {% if column in primary_key_columns %}
+                                <input type="hidden" name="{{ column }}" value="{{ value }}">
+                            {% endif %}
+                        {% endfor %}
+                        <button type="submit">Delete</button>
+                    </form>
+                    {% set primary_key_values = {} %}
+                    {% for column, value in zip(columns, row) %}
+                        {% if column in primary_key_columns %}
+                            {% set primary_key_values = primary_key_values.update({column: value}) %}
+                        {% endif %}
+                    {% endfor %}
+                    <a href="{{ url_for('edit_row_form', table_name=table_name, **primary_key_values) }}" style="text-decoration: none;">
+                        <button style="background-color: #4CAF50;">Edit</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

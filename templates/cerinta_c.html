@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerinta C</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+            cursor: pointer;
+            position: relative;
+        }
+        th:hover {
+            background-color: #e4e4e4;
+        }
+        .sort-arrow {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 0.8em;
+        }
+        th a {
+            color: black;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cerinta C</h1>
+    <h2>Sa se afiseze numele utilizatorului, numele playlist-ului si numele melodiilor din playlist
+    unde playlist-ul a fost creat dupa '01-01-2023' si melodia are mai mult de 3 minute.</h2>
+    <a href="{{ url_for('home') }}">Tabele</a>
+    <table>
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>
+                    <a href="{{ url_for('cerinta_c', sort_column=column, sort_order='DESC' if sort_column == column and sort_order == 'ASC' else 'ASC') }}">
+                        {{ column }}
+                        {% if sort_column == column %}
+                            <span class="sort-arrow">
+                                {{ '▼' if sort_order == 'DESC' else '▲' }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

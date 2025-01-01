@@ -1,0 +1,11 @@
+# Music Database
+
+In this project I designed an Oracle Database that holds the
+information of a music application. The database has
+7 main tables:
+**Info_Card, User, Tip_Abonament, Playlist, Melodie, 
+Album, Artist.** Each table has specific constraints. <br/>
+
+The database also has a web interface using Flask. It allows
+the user to see the tables, add new entries, update entries
+or delete entries.

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editare {{ table_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .button-group {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .cancel-button {
+            background-color: #f44336;
+            color: white;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editare {{ table_name }}</h1>
+    <form method="POST" action="{{ url_for('update_row', table_name=table_name) }}">
+        {% for column, value in zip(columns, row_data) %}
+        <div class="form-group">
+            <label for="{{ column }}">{{ column }}</label>
+            <input type="text" id="{{ column }}" name="{{ column }}" value="{{ value }}">
+            {% if column in primary_key_columns %}
+            <input type="hidden" name="OLD_{{ column }}" value="{{ value }}">
+            {% endif %}
+        </div>
+        {% endfor %}
+        <div class="button-group">
+            <button type="submit" class="save-button">Save</button>
+            <a href="{{ url_for('table_data', table_name=table_name) }}">
+                <button type="button" class="cancel-button">Cancel</button>
+            </a>
+        </div>
+    </form>
+</body>
+</html>
