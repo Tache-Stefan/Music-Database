@@ -11,5 +11,14 @@ the user to see the tables, add new entries, update entries
 or delete entries.
 
 <p align="center">
-<img src="https://github.com/Tache-Stefan/Music-Database/blob/main/DiagER_updated.png?raw=true" width="400" alt="ER_Diagram">
+<img src="https://github.com/Tache-Stefan/Music-Database/blob/main/Img/DiagER_updated.png" width="400" alt="ER_Diagram">
+</p>
+<p align="center">
+<img src="https://github.com/Tache-Stefan/Music-Database/blob/main/Img/Home.png" width="400" alt="Home">
+</p>
+<p align="center">
+<img src="https://github.com/Tache-Stefan/Music-Database/blob/main/Img/Table.png" width="400" alt="Table">
+</p>
+<p align="center">
+<img src="https://github.com/Tache-Stefan/Music-Database/blob/main/Img/Edit.png" width="400" alt="Edit">
 </p>
